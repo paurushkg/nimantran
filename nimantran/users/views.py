@@ -10,7 +10,6 @@ from django.contrib.auth import (
 User = get_user_model()
 
 
-# Create your views here.
 @csrf_exempt
 def register(request):
     form = UserRegisterForm()
