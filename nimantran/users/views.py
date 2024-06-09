@@ -1,22 +1,31 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
-from .models import User
+from .forms import UserRegisterForm
+from django.contrib.auth import (
+    authenticate,
+    get_user_model
+
+)
+
+User = get_user_model()
 
 
 # Create your views here.
 @csrf_exempt
 def register(request):
+    form = UserRegisterForm()
     if request.method == 'POST':
-        full_name = request.POST.get('fullName')
-        phone_number = request.POST['phoneNumber']
-        email = request.POST['emailId']
-        password = request.POST['password']
-        confirm_password = request.POST['confirmPassword']
-        if password != confirm_password:
-            raise Exception("Password does not match")
-        user = User(full_name=full_name, phone_number=phone_number, email=email)
-        user.set_password(password)
-        user.save()
-        return HttpResponse(full_name)
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = User(
+                full_name=form.cleaned_data.get('full_name'),
+                email=form.cleaned_data.get('email'),
+                phone_number=form.cleaned_data.get('phone_number'),
+            )
+            user.set_password(form.cleaned_data.get('password'))
+            user.save()
+            return HttpResponse(user)
+        else:
+            return render(request, "register.html", {'form': form})
     else:
-        return render(request, "index.html")
+        return render(request, "register.html", {'form': form})
