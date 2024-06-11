@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserLoginForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import (
     authenticate,
-    get_user_model
-
+    get_user_model, login
 )
 
 User = get_user_model()
@@ -28,3 +28,17 @@ def register(request):
             return render(request, "register.html", {'form': form})
     else:
         return render(request, "register.html", {'form': form})
+
+
+@csrf_exempt
+def login_user(request):
+    form = UserLoginForm()
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            login(request, user=form.get_user())
+            return HttpResponse('dashboard')
+        else:
+            return render(request, "login.html", {'form': form})
+    else:
+        return render(request, "login.html", {'form': form})
