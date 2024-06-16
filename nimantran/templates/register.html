@@ -14,7 +14,6 @@
                         <div class="row justify-content-center">
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Register</p>
-
                                 <form method="POST" action=register class="mx-1 mx-md-4">
                                     {% csrf_token %}
                                     <div class="d-flex flex-row align-items-center mb-4">
@@ -33,15 +32,15 @@
                                             {% endfor %}
                                             {% endif %}
                                             {% endfor %}
-
                                         </div>
                                     </div>
-
                                     <div class="form-check d-flex justify-content-center mb-5">
+                                        <div class="Form-control">
                                         <input class="form-check-input me-2" type="checkbox" value="" id="terms"/>
-                                        <label class="form-check-label">
+                                        <label class="form-check-label" for="terms">
                                             I agree all statements in <a href="#!">Terms of service</a>
                                         </label>
+                                        </div>
                                     </div>
 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -50,6 +49,11 @@
                                         </button>
                                     </div>
                                 </form>
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4" id="login">
+                                <label class="text-center mb-5 mx-1 mx-md-4 mt-4" for="login">
+                                            Already have an account? <a href="/user/login">Login Here</a>
+                                        </label>
+                                </div>
 
                             </div>
                             <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">

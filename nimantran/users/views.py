@@ -1,10 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
 from .forms import UserRegisterForm, UserLoginForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import (
-    authenticate,
-    get_user_model, login
+    get_user_model, login, logout
 )
 
 User = get_user_model()
@@ -37,8 +36,20 @@ def login_user(request):
         form = UserLoginForm(request.POST)
         if form.is_valid():
             login(request, user=form.get_user())
-            return HttpResponse('dashboard')
+            return redirect('/user/check')
         else:
             return render(request, "login.html", {'form': form})
     else:
         return render(request, "login.html", {'form': form})
+
+
+@login_required(login_url='/user/login')
+def logout_user(request):
+    form = UserLoginForm()
+    logout(request)
+    return render(request, "login.html", {'form': form})
+
+
+@login_required(login_url='/user/login')
+def dashboard_check(request):
+    return HttpResponse('dashboard')

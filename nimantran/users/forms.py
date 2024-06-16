@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import (
     authenticate,
     get_user_model
-
 )
 from django.core.exceptions import ValidationError
 
@@ -59,7 +58,8 @@ class UserLoginForm(forms.ModelForm):
 
         if phone_number is not None and password:
             self.user_cache = authenticate(
-                phone_number=phone_number, password=password
+                phone_number=phone_number,
+                password=password
             )
             if self.user_cache is None:
                 self.add_error('password', self.error_messages['invalid_login'])

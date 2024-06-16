@@ -1,0 +1,12 @@
+{% extends 'nbase.html' %}
+{% load static %}
+{% block title %} Log In {% endblock %}
+{% block content %}
+<div class="mb-3">
+    <form action="add_event" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+</div>
+{% endblock %}
