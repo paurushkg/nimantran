@@ -1,11 +1,11 @@
 {% extends 'events/base.html' %}
 {% load static %}
-{% block title %} Add Event {% endblock %}
+{% block title %} Edit Event {% endblock %}
 {% block content %}
 <div class="mb-3">
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
-      <p class="lead"><b>Add an event</b></p>
+      <p class="lead"><b>Edit event</b></p>
        <hr class="my-4">
     <div class="mb-3">
         {% if messages %}
@@ -16,7 +16,7 @@
         </ul>
         {% endif %}
     </div>
-    <form action="{% url 'add_event' %}" method="post">
+    <form action="{% url 'update_event' pk=object.pk %}" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" class="mt-3">

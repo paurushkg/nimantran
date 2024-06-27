@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -19,6 +20,9 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name + "_" + self.host.full_name
+
+    def get_absolute_url(self):
+        return reverse('event_detail', kwargs={'name': self.name})
 
 
 class ChildEvent(models.Model):

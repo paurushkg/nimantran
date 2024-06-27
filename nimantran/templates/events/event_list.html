@@ -1,0 +1,51 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% block title %} Event List {% endblock %}
+{% block content %}
+<div class="mb-3">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="input-group mb-3">
+                 <form action="{% url 'search_event' %}" method="get">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Event's Name"
+                       aria-label="Event's Name" aria-describedby="basic-addon2" name="event_name" required/>
+                             <button type="submit" class="btn btn-primary">Search</button>
+                  </div>
+
+
+
+                 </form>
+
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <b>Event Details</b>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">S. No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Venue</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in object_list %}
+                    <tr>
+                        <td scope="row">{{ forloop.counter }}</td>
+                        <td>{{ object.name }}</td>
+                        <td>{{ object.venue }}</td>
+                        <td>{{ object.date }}</td>
+                        <td scope="col"><a href="{% url 'event_detail' name=object.name %}">View</a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
