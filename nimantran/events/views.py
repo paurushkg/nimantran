@@ -1,14 +1,26 @@
 import datetime
+from random import randint
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, ListView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView, DeleteView
 
-from .models import Event
-from .forms import EventForm
+from .models import Event, Guest
+from .forms import EventForm, GuestForm
+
+ALPHANUMERIC = [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+    'w', 'x', 'y', 'z',
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z',
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+    '-'
+]
 
 
 class ListEvent(LoginRequiredMixin, ListView):
@@ -73,3 +85,73 @@ class UpdateEvent(UpdateView):
             return render(self.request, "events/event_update_form.html", {"form": form, "object": self.event})
         self.event.save()
         return super().form_valid(form)
+
+
+class AddGuest(CreateView):
+    CreateView.model = Guest
+    CreateView.form_class = GuestForm
+    guest = None
+
+    def get_success_url(self):
+        return reverse('guest_detail', kwargs={'pk': self.guest.pk})
+
+    def form_valid(self, form):
+        slug = ''
+        for i in range(11):
+            index = randint(0, len(ALPHANUMERIC) - 1)
+            slug += ALPHANUMERIC[index]
+
+        self.guest = form.save(commit=False)
+        if form.is_valid():
+            self.guest.slug = slug
+        self.guest.save()
+        return super().form_valid(form)
+
+
+class UpdateGuest(UpdateView):
+    UpdateView.model = Guest
+    UpdateView.form_class = GuestForm
+    guest = None
+
+    def get_success_url(self):
+        return reverse('guest_detail', kwargs={'pk': self.guest.pk})
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.guest = form.save(commit=False)
+            self.guest.save()
+        return super().form_valid(form)
+
+
+class ListGuest(ListView):
+    ListView.model = Guest
+    ListView.form_class = GuestForm
+
+
+class GuestDetail(DetailView):
+    DetailView.model = Guest
+    slug_field = "name"
+    slug_url_kwarg = "name"
+    object = None
+
+
+class SearchListGuest(LoginRequiredMixin, ListView):
+    model = Guest
+
+    def get_queryset(self):
+        event_query = self.request.GET.get("guest_name")
+        return self.model.objects.filter(name__icontains=event_query)
+
+
+class DeleteGuest(DeleteView):
+    model = Guest
+
+    def get_success_url(self):
+        return reverse('list_guest')
+
+
+class Card(DetailView):
+    DetailView.model = Guest
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+    DetailView.template_name = "card.html"

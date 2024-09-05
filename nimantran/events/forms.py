@@ -3,7 +3,7 @@ from .models import (
     Event,
     ChildEvent,
     Groom,
-    Bride,
+    Bride, Guest,
 )
 
 
@@ -43,4 +43,15 @@ class BrideForm(forms.ModelForm):
             'name': forms.TextInput(attrs={"class": "form-control"}),
             'father': forms.TextInput(attrs={"class": "form-control"}),
             'mother': forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+
+class GuestForm(forms.ModelForm):
+    class Meta:
+        model = Guest
+        with_family = forms.BooleanField()
+
+        fields = ['name', 'with_family']
+        widgets = {
+            'name': forms.TextInput(attrs={"class": "form-control"}),
         }

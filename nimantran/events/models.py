@@ -53,3 +53,12 @@ class Groom(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Guest(models.Model):
+    name = models.CharField(max_length=255)
+    with_family = models.BooleanField(default=True)
+    slug = models.CharField(max_length=11)
+
+    def __str__(self):
+        return self.name
