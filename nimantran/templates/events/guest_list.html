@@ -60,7 +60,7 @@
     function shareGuest(name, url) {
         if (navigator.share) {
             navigator.share({
-                text: 'श्री ${name}, कृपया यहां क्लिक करे।',
+                text: `श्री ${name}, कृपया यहां क्लिक करे।`,
                 url: url
             }).then(() => {
                 console.log('Guest details shared successfully.');
