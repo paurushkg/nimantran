@@ -61,7 +61,7 @@ class AddEvent(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EventDetail(DetailView):
+class EventDetail(LoginRequiredMixin, DetailView):
     model = Event
     slug_field = "name"
     slug_url_kwarg = "name"
@@ -71,7 +71,7 @@ class EventDetail(DetailView):
         return self.model.objects.filter(host=self.request.user)
 
 
-class UpdateEvent(UpdateView):
+class UpdateEvent(LoginRequiredMixin, UpdateView):
     UpdateView.model = Event
     UpdateView.form_class = EventForm
     UpdateView.template_name_suffix = "_update_form"
@@ -87,7 +87,7 @@ class UpdateEvent(UpdateView):
         return super().form_valid(form)
 
 
-class AddGuest(CreateView):
+class AddGuest(LoginRequiredMixin, CreateView):
     CreateView.model = Guest
     CreateView.form_class = GuestForm
     guest = None
@@ -108,7 +108,7 @@ class AddGuest(CreateView):
         return super().form_valid(form)
 
 
-class UpdateGuest(UpdateView):
+class UpdateGuest(LoginRequiredMixin, UpdateView):
     UpdateView.model = Guest
     UpdateView.form_class = GuestForm
     guest = None
@@ -123,12 +123,12 @@ class UpdateGuest(UpdateView):
         return super().form_valid(form)
 
 
-class ListGuest(ListView):
+class ListGuest(LoginRequiredMixin, ListView):
     ListView.model = Guest
     ListView.form_class = GuestForm
 
 
-class GuestDetail(DetailView):
+class GuestDetail(LoginRequiredMixin, DetailView):
     DetailView.model = Guest
     slug_field = "name"
     slug_url_kwarg = "name"
@@ -143,7 +143,7 @@ class SearchListGuest(LoginRequiredMixin, ListView):
         return self.model.objects.filter(name__icontains=event_query)
 
 
-class DeleteGuest(DeleteView):
+class DeleteGuest(LoginRequiredMixin, DeleteView):
     model = Guest
 
     def get_success_url(self):
