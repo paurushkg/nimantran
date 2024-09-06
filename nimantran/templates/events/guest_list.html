@@ -6,13 +6,13 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <div class="input-group mb-3">
-                 <form action="{% url 'search_guest' %}" method="get">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Guest's Name"
-                       aria-label="Guest's Name" aria-describedby="basic-addon2" name="guest_name" required/>
-                             <button type="submit" class="btn btn-primary me-3">Search</button>
-                  </div>
-                 </form>
+                <form action="{% url 'search_guest' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Guest's Name"
+                               aria-label="Guest's Name" aria-describedby="basic-addon2" name="guest_name" required/>
+                        <button type="submit" class="btn btn-primary me-3">Search</button>
+                    </div>
+                </form>
                 <a class="btn btn-primary" href="{% url 'add_guest' %}" role="button">Add Guest</a>
             </div>
             <div class="card">
@@ -26,26 +26,31 @@
                         <th scope="col">Name</th>
                         <th scope="col">With Family</th>
                         <th scope="col">Remove</th>
-                        <th scope="col">Share</th>
+                        <th scope="col">Preview/Share</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for object in object_list %}
                     <tr>
                         <td scope="row">{{ forloop.counter }}</td>
-                        <td scope="col"><a href="{% url 'guest_detail' pk=object.pk %}">{{ object.name }}</a></td>
+                        <td scope="col"><a href="{% url 'guest_detail' pk=object.pk %}" >{{ object.name }}</a></td>
                         <td>
                             {% if object.with_family %}
-                                Yes
+                            Yes
                             {% else %}
-                                No
+                            No
                             {% endif %}
                         </td>
                         <td scope="col">
-                            <a class="btn btn-primary" href="{% url 'guest_delete' pk=object.pk %}" role="button">Remove</a>
+                            <a class="btn btn-primary" href="{% url 'guest_delete' pk=object.pk %}"
+                               role="button">Remove</a>
                         </td>
                         <td scope="col">
-                            <button class="btn btn-secondary" onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share</button>
+                            <a class="btn btn-secondary" href="{% url 'card' slug=object.slug %} " role="button">Preview</a>
+
+                            <button class="btn btn-secondary"
+                                    onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}

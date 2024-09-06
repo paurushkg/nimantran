@@ -36,7 +36,7 @@ def login_user(request):
         form = UserLoginForm(request.POST)
         if form.is_valid():
             login(request, user=form.get_user())
-            return redirect('/user/check')
+            return redirect('/event/list_guest')
         else:
             return render(request, "login.html", {'form': form})
     else:

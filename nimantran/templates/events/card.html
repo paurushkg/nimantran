@@ -115,7 +115,8 @@
                     <div class="card page " style="object-fit: contain;">
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <img src="{% static 'card/GaneshJi_800.png' %}" class="card-img-top" alt="Ganesh Ji" width="200" height="300">
+                                <img src="{% static 'card/GaneshJi_800.png' %}" class="card-img-top" alt="Ganesh Ji"
+                                     width="200" height="300">
                                 <div>
                                     <h1>
                                         <p class="card-text text-center amita-bold" style="color: red;">
@@ -128,7 +129,8 @@
                                     </p>
                                     <h4>
                                         <p class="text-center amita-regular">
-                                            <img src="{% static 'card/invite.png' %}" alt="invite" width="100" height="50"><br>
+                                            <img src="{% static 'card/invite.png' %}" alt="invite" width="100"
+                                                 height="50"><br>
                                             श्री {{ object.name }}
                                             {% if object.with_family %}
                                             <br> (सपरिवार)
@@ -208,11 +210,35 @@
         </div>
     </div>
 
+    <div class="row justify-content-center mt-3 ms-6">
+        {% if user.is_authenticated %}
+        <button class="btn btn-link"
+                onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share
+        </button>
+        {% endif %}
+
+    </div>
+
     <!-- Audio Player -->
     <audio id="backgroundMusic" src="{% static 'card/audio.mp3' %}" loop></audio>
 </div>
 
 <script>
+    function shareGuest(name, url) {
+        if (navigator.share) {
+            navigator.share({
+                text: `श्री ${name}, कृपया यहां क्लिक करे।`,
+                url: url
+            }).then(() => {
+                console.log('Guest details shared successfully.');
+            }).catch((error) => {
+                console.error('Error sharing guest details:', error);
+            });
+        } else {
+            alert('Web Share API is not supported in your browser.');
+        }
+    }
+
     window.addEventListener('load', function() {
         var loader = document.getElementById('loader');
         loader.style.display = 'none'; // Hide the loader when page is loaded
