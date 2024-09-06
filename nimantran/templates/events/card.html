@@ -16,6 +16,19 @@
             background: url("{% static 'card/background.jpg' %}");
         }
 
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
         .flipbook-container {
             perspective: 1000px;
             margin: auto;
@@ -67,25 +80,34 @@
         .btn-group .btn {
             margin-right: 5px; /* Adds space between the buttons */
         }
+
         .amita-regular {
-          font-family: "Amita", serif;
-         font-weight: 400;
-  font-style: normal;
-}
+            font-family: "Amita", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
-.amita-bold {
-  font-family: "Amita", serif;
-  font-weight: 1000;
-  font-style: normal;
-}
-        h2 {margin-bottom: 0em;  margin-top: 0em;}
+        .amita-bold {
+            font-family: "Amita", serif;
+            font-weight: 1000;
+            font-style: normal;
+        }
 
-
+        h2 {
+            margin-bottom: 0em;
+            margin-top: 0em;
+        }
     </style>
 </head>
 <body>
-<div class="container pt-3">
+<!-- Loader Spinner -->
+<div id="loader" class="loader">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
 
+<div class="container pt-3">
     <div class="row justify-content-center mt-3">
         <div class="col-12 col-md-8 d-flex justify-content-center">
             <div class="flipbook-container">
@@ -93,26 +115,24 @@
                     <div class="card page " style="object-fit: contain;">
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <img src="{% static 'card/GaneshG.jpeg' %}" class="card-img-top" alt="Ganesh Ji" width="200" height="300">
+                                <img src="{% static 'card/GaneshJi.png' %}" class="card-img-top" alt="Ganesh Ji" width="200" height="300">
                                 <div>
                                     <h1>
                                         <p class="card-text text-center amita-bold" style="color: red;">
                                             || श्री गणेशाय नमः ||
                                         </p>
                                     </h1>
-                                    <p class=" text-center amita-regular" style="color: #b5830e;">
+                                    <p class="text-center amita-regular" style="color: #b5830e;">
                                         वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।<br>
                                         निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥
                                     </p>
                                     <h4>
-
                                         <p class="text-center amita-regular">
-                                            <img src="{% static 'card/inviteImg.jpeg' %}" alt="invite" width="100" height="50"><br>
+                                            <img src="{% static 'card/invite.png' %}" alt="invite" width="100" height="50"><br>
                                             श्री {{ object.name }}
                                             {% if object.with_family %}
                                             <br> (सपरिवार)
                                             {% endif %}
-
                                         </p>
                                     </h4>
                                 </div>
@@ -121,42 +141,36 @@
                     </div>
                     <div class="card page ">
                         <div class="card-body">
-                            <p class=" text-center amita-regular pb-2" style="color: #b5830e;">
+                            <p class="text-center amita-regular pb-2" style="color: #b5830e;">
                                 मान्यवर,<br>
                                 परमेश्वर की असीम अनुकम्पा
                             </p>
                             <h2>
-                                <p class=" text-center amita-bold" style="color: #bf3b0f;">
+                                <p class="text-center amita-bold" style="color: #bf3b0f;">
                                     पौरुष कुमार गुप्ता
                                 </p>
                             </h2>
-
-                            <p class=" text-center amita-regular" style="color: #b5830e;">
+                            <p class="text-center amita-regular" style="color: #b5830e;">
                                 ( सुपुत्र श्रीमती दुर्गा गुप्ता एवं श्री नरेंद्र गुप्ता )
                             </p>
-                            <p class=" text-center amita-regular" style="color: #b5830e;">
+                            <p class="text-center amita-regular" style="color: #b5830e;">
                                 एवं
                             </p>
                             <h2>
-                                <p class=" text-center amita-bold" style="color: #bf3b0f;">
+                                <p class="text-center amita-bold" style="color: #bf3b0f;">
                                     पौरुष कुमार गुप्ता
                                 </p>
                             </h2>
-
-                            <p class=" text-center amita-regular" style="color: #b5830e;">
+                            <p class="text-center amita-regular" style="color: #b5830e;">
                                 ( सुपुत्र श्रीमती दुर्गा गुप्ता एवं श्री नरेंद्र गुप्ता )
                             </p>
-                            <p class=" text-center amita-regular" style="color: #bf3b0f;">
-                                के
-                                पावन परिणय
+                            <p class="text-center amita-regular" style="color: #bf3b0f;">
+                                के पावन परिणय
                             </p>
-                            <p class=" text-center amita-regular" style="color: #b5830e;">
+                            <p class="text-center amita-regular" style="color: #b5830e;">
                                 की मांगलिक बेला पर आपकी स्नेहिल उपस्थिति <br>एवं वर-वधू को शुभआशीर्वाद हेतु <br> हमारा
-                                स्नेह
-                                भरा आमंत्रण।
+                                स्नेह भरा आमंत्रण।
                             </p>
-
-
                         </div>
                     </div>
                     <div class="card page ">
@@ -191,7 +205,6 @@
             <button id="prevPage" class="btn btn-primary btn-group m-2">Previous</button>
             <button id="nextPage" class="btn btn-primary m-2">Next</button>
             <button id="closePage" class="btn btn-danger m-2">Close</button>
-
         </div>
     </div>
 
@@ -200,6 +213,11 @@
 </div>
 
 <script>
+    window.addEventListener('load', function() {
+        var loader = document.getElementById('loader');
+        loader.style.display = 'none'; // Hide the loader when page is loaded
+    });
+
     var audio = document.getElementById("backgroundMusic");
     audio.volume = 0.5;
     const pages = document.querySelectorAll('.page');
@@ -280,6 +298,5 @@
     // Initialize the flipbook to display the first page correctly
     updateFlipbook();
 </script>
-
 </body>
 </html>
