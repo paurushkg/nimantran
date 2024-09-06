@@ -13,7 +13,9 @@
                         <button type="submit" class="btn btn-primary me-3">Search</button>
                     </div>
                 </form>
+                <div class="pt-2">
                 <a class="btn btn-primary" href="{% url 'add_guest' %}" role="button">Add Guest</a>
+                </div>
             </div>
             <div class="card">
                 <div class="card-header">
@@ -47,10 +49,11 @@
                         </td>
                         <td scope="col">
                             <a class="btn btn-secondary" href="{% url 'card' slug=object.slug %} " role="button">Preview</a>
-
+                            <div class="pt-2">
                             <button class="btn btn-secondary"
                                     onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share
                             </button>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
