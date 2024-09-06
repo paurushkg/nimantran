@@ -10,13 +10,10 @@
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="Guest's Name"
                        aria-label="Guest's Name" aria-describedby="basic-addon2" name="guest_name" required/>
-                             <button type="submit" class="btn btn-primary">Search</button>
+                             <button type="submit" class="btn btn-primary me-3">Search</button>
                   </div>
-
-
-
                  </form>
-
+                <a class="btn btn-primary" href="{% url 'add_guest' %}" role="button">Add Guest</a>
             </div>
             <div class="card">
                 <div class="card-header">
@@ -27,19 +24,29 @@
                     <tr>
                         <th scope="col">S. No.</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Venue</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">View</th>
+                        <th scope="col">With Family</th>
+                        <th scope="col">Remove</th>
+                        <th scope="col">Share</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for object in object_list %}
                     <tr>
                         <td scope="row">{{ forloop.counter }}</td>
-                        <td>{{ object.name }}</td>
-                        <td>{{ object.with_family }}</td>
-                        <td scope="col"><a href="{% url 'guest_detail' pk=object.pk %}">View</a></td>
-                        <td scope="col"><a href="{% url 'guest_delete' pk=object.pk %}">Delete</a></td>
+                        <td scope="col"><a href="{% url 'guest_detail' pk=object.pk %}">{{ object.name }}</a></td>
+                        <td>
+                            {% if object.with_family %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>
+                        <td scope="col">
+                            <a class="btn btn-primary" href="{% url 'guest_delete' pk=object.pk %}" role="button">Remove</a>
+                        </td>
+                        <td scope="col">
+                            <button class="btn btn-secondary" onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share</button>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -48,4 +55,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function shareGuest(name, url) {
+        if (navigator.share) {
+            navigator.share({
+                title: 'श्री ${name}, कृपया यहां क्लिक करे।',
+                url: url
+            }).then(() => {
+                console.log('Guest details shared successfully.');
+            }).catch((error) => {
+                console.error('Error sharing guest details:', error);
+            });
+        } else {
+            alert('Web Share API is not supported in your browser.');
+        }
+    }
+</script>
 {% endblock %}

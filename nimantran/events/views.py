@@ -154,4 +154,4 @@ class Card(DetailView):
     DetailView.model = Guest
     slug_field = "slug"
     slug_url_kwarg = "slug"
-    DetailView.template_name = "card.html"
+    template_name = "card.html"
