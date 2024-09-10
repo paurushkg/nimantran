@@ -6,17 +6,19 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <div class="input-group mb-3">
-                 <form action="{% url 'search_event' %}" method="get">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Event's Name"
-                       aria-label="Event's Name" aria-describedby="basic-addon2" name="event_name" required/>
-                             <button type="submit" class="btn btn-primary">Search</button>
-                  </div>
+                <form action="{% url 'search_event' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Event's Name"
+                               aria-label="Event's Name" aria-describedby="basic-addon2" name="event_name" required/>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
 
 
+                </form>
 
-                 </form>
-
+            </div>
+            <div class="pt-1 pb-2">
+                <a class="btn btn-primary" href="{% url 'add_event' %}" role="button">Add an Event</a>
             </div>
             <div class="card">
                 <div class="card-header">

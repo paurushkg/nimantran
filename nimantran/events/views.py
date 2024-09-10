@@ -72,9 +72,9 @@ class EventDetail(LoginRequiredMixin, DetailView):
 
 
 class UpdateEvent(LoginRequiredMixin, UpdateView):
-    UpdateView.model = Event
-    UpdateView.form_class = EventForm
-    UpdateView.template_name_suffix = "_update_form"
+    model = Event
+    form_class = EventForm
+    template_name_suffix = "_update_form"
     event = None
 
     def form_valid(self, form):
@@ -88,8 +88,8 @@ class UpdateEvent(LoginRequiredMixin, UpdateView):
 
 
 class AddGuest(LoginRequiredMixin, CreateView):
-    CreateView.model = Guest
-    CreateView.form_class = GuestForm
+    model = Guest
+    form_class = GuestForm
     guest = None
 
     def get_success_url(self):
@@ -110,8 +110,8 @@ class AddGuest(LoginRequiredMixin, CreateView):
 
 
 class UpdateGuest(LoginRequiredMixin, UpdateView):
-    UpdateView.model = Guest
-    UpdateView.form_class = GuestForm
+    model = Guest
+    form_class = GuestForm
     guest = None
 
     def get_success_url(self):
@@ -125,8 +125,8 @@ class UpdateGuest(LoginRequiredMixin, UpdateView):
 
 
 class ListGuest(LoginRequiredMixin, ListView):
-    ListView.model = Guest
-    ListView.form_class = GuestForm
+    model = Guest
+    form_class = GuestForm
 
     def get_queryset(self):
         return self.model.objects.filter(host=self.request.user)
