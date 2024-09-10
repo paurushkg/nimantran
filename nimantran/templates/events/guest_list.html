@@ -13,10 +13,14 @@
                         <button type="submit" class="btn btn-primary me-3">Search</button>
                     </div>
                 </form>
-                <div class="pt-2">
-                <a class="btn btn-primary" href="{% url 'add_guest' %}" role="button">Add Guest</a>
-                </div>
             </div>
+            <div class="pt-1 pb-2">
+                    <a class="btn btn-primary" href="{% url 'add_guest' %}" role="button">Add Guest</a>
+
+                    <button type="button" class="btn btn-secondary">
+                        Total Guests: <span class="badge bg-dark">{{ total_guests }}</span>
+                    </button>
+                </div>
             <div class="card">
                 <div class="card-header">
                     <b>Guest Details</b>
@@ -35,7 +39,7 @@
                     {% for object in object_list %}
                     <tr>
                         <td scope="row">{{ forloop.counter }}</td>
-                        <td scope="col"><a href="{% url 'guest_detail' pk=object.pk %}" >{{ object.name }}</a></td>
+                        <td scope="col"><a href="{% url 'guest_detail' pk=object.pk %}">{{ object.name }} (+{{ object.members }})</a></td>
                         <td>
                             {% if object.with_family %}
                             Yes
@@ -48,11 +52,12 @@
                                role="button">Remove</a>
                         </td>
                         <td scope="col">
-                            <a class="btn btn-secondary" href="{% url 'card' slug=object.slug %} " role="button">Preview</a>
+                            <a class="btn btn-secondary" href="{% url 'card' slug=object.slug %} "
+                               role="button">Preview</a>
                             <div class="pt-2">
-                            <button class="btn btn-secondary"
-                                    onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share
-                            </button>
+                                <button class="btn btn-secondary"
+                                        onclick="shareGuest('{{ object.name }}', 'card/{{ object.slug }}')">Share
+                                </button>
                             </div>
                         </td>
                     </tr>

@@ -51,7 +51,8 @@ class GuestForm(forms.ModelForm):
         model = Guest
         with_family = forms.BooleanField()
 
-        fields = ['name', 'with_family']
+        fields = ['name', 'members', 'with_family']
         widgets = {
             'name': forms.TextInput(attrs={"class": "form-control"}),
+            'members': forms.TextInput(attrs={"class": "form-control"}),
         }

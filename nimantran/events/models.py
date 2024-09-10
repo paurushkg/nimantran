@@ -56,8 +56,10 @@ class Groom(models.Model):
 
 
 class Guest(models.Model):
+    host = models.ForeignKey(to=User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     with_family = models.BooleanField(default=True)
+    members = models.IntegerField(default=1)
     slug = models.CharField(max_length=11)
 
     def __str__(self):

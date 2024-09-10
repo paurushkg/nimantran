@@ -104,6 +104,7 @@ class AddGuest(LoginRequiredMixin, CreateView):
         self.guest = form.save(commit=False)
         if form.is_valid():
             self.guest.slug = slug
+            self.guest.host = self.request.user
         self.guest.save()
         return super().form_valid(form)
 
@@ -127,12 +128,29 @@ class ListGuest(LoginRequiredMixin, ListView):
     ListView.model = Guest
     ListView.form_class = GuestForm
 
+    def get_queryset(self):
+        return self.model.objects.filter(host=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation to get the existing context
+        context = super().get_context_data(**kwargs)
+        # Get the filtered guest list
+        object_list = self.get_queryset()
+        # Calculate the total number of guests
+        total_guests = sum(guest.members + 1 for guest in object_list)
+        # Add the total_guests to the context
+        context['total_guests'] = total_guests
+        return context
+
 
 class GuestDetail(LoginRequiredMixin, DetailView):
-    DetailView.model = Guest
+    model = Guest
     slug_field = "name"
     slug_url_kwarg = "name"
     object = None
+
+    def get_queryset(self):
+        return self.model.objects.filter(host=self.request.user)
 
 
 class SearchListGuest(LoginRequiredMixin, ListView):
@@ -140,7 +158,18 @@ class SearchListGuest(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         event_query = self.request.GET.get("guest_name")
-        return self.model.objects.filter(name__icontains=event_query)
+        return self.model.objects.filter(name__icontains=event_query, host=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation to get the existing context
+        context = super().get_context_data(**kwargs)
+        # Get the filtered guest list
+        object_list = self.get_queryset()
+        # Calculate the total number of guests
+        total_guests = sum(guest.members for guest in object_list)
+        # Add the total_guests to the context
+        context['total_guests'] = total_guests
+        return context
 
 
 class DeleteGuest(LoginRequiredMixin, DeleteView):
@@ -151,7 +180,7 @@ class DeleteGuest(LoginRequiredMixin, DeleteView):
 
 
 class Card(DetailView):
-    DetailView.model = Guest
+    model = Guest
     slug_field = "slug"
     slug_url_kwarg = "slug"
     template_name = "card.html"

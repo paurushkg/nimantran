@@ -10,9 +10,11 @@
                     <b>Guest Details</b>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Name: {{ object.name }}</p>
-                    <p class="card-text">With Family: {{ object.with_family }}</p>
-                    <a class="btn btn-primary" href="{% url 'update_guest' pk=object.pk %}" role="button">Edit Details</a>
+                    <p class="card-text">Name: <b>{{ object.name }}</b></p>
+                    <p class="card-text">Number of Members: <b>{{ object.members }}</b></p>
+                    <p class="card-text">With Family: <b>{{ object.with_family }}</b></p>
+                    <a class="btn btn-primary" href="{% url 'update_guest' pk=object.pk %}" role="button">Edit
+                        Details</a>
                 </div>
             </div>
         </div>
